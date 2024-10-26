@@ -1,0 +1,43 @@
+@import url(./car-detail.css);
+.add-a-car__info {
+    background-color: #ffffff;
+    padding: 0;
+}
+
+.add-a-car__header,
+.add-a-car__header .breadcrumb,
+.nav-tabs {
+    background-color: #ffffff;
+}
+
+.row {
+    padding: 0 100px;
+    margin-right: 0;
+}
+
+#personalInformation select,
+#personalInformation input {
+    width: 70%;
+}
+
+.security--title {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.security--info {
+    padding: 0 100px;
+}
+
+.thumbnail {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    position: static;
+    border: 2px dashed black;
+}
+
+label.error {
+    color: #dc3546;
+    font-size: 1.4rem;
+}

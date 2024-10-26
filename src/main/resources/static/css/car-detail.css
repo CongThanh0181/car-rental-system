@@ -1,0 +1,33 @@
+@import url(./add-car.css);
+
+.car-detail__header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.car-detail__preview {
+    padding: 40px;
+}
+
+.preview--atc .btn {
+    min-width: 0;
+}
+
+.car-detail__info,
+.car-detail__info .active {
+    background-color: #ffffff !important;
+}
+
+.car-detail__info .nav-item {
+    background-color: #dddddd;
+}
+
+#terms-of-use,
+#details,
+#basic-information {
+    padding: 25px;
+}
+
+#details span,
+#basic-information span {
+    font-weight: 600;
+}

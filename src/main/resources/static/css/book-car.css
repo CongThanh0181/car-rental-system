@@ -1,0 +1,36 @@
+@import url(./car-detail.css);
+
+/* step 1 */
+.booking--details {
+    padding: 20px 100px;
+}
+
+.booking-summary__title, 
+.booking--details__title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.booking-summary__info {
+    padding-left: 100px;
+    font-size: 2rem;
+}
+
+/* Renter's information */
+.renter--title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.thumbnail {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    position: static;
+    border: 2px dashed black;
+}
+
+label.error {
+    color: #dc3546;
+    font-size: 1.4rem;
+}

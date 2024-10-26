@@ -1,0 +1,224 @@
+/* commons */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+	background-color: #7e7e7e;
+}
+
+body {
+    height: 100vh;
+    font-size: 1.6rem;
+    scroll-behavior: smooth;
+    background-color: #666666;
+}
+
+/* header */
+.header {
+    height: 80px;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #797979;
+}
+
+.header a {
+    color: inherit;
+}
+
+.header a:hover {
+    text-decoration: none;
+}
+
+.logo,
+.signup,
+.about {
+    border-right: 2px solid #ffffff;
+}
+
+.fa-car::before {
+    font-size: 5rem;
+}
+
+.header__action span,
+.header .about a {
+    font-size: 2rem;
+}
+
+.signup,
+.login,
+.header .about a {
+    padding: 10px 40px;
+}
+
+.signup__icon {
+    background-color: #ffffff;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin-right: 5px;
+}
+
+/* banner */
+.banner {
+    transform: skew(-45deg)
+}
+
+.banner h2 {
+    font-weight: 700;
+}
+
+.banner--customer {
+    border-right: 2px solid #797979;
+}
+
+.banner--customer,
+.banner--carowner {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.skew--45 {
+    transform: skew(45deg);
+}
+
+.banner--description {
+    font-size: 2rem;
+}
+
+.btn {
+    border: 1px solid black;
+    min-width: 250px;
+    font-size: 1.8rem;
+    padding: 10px 35px;
+}
+
+/* main content */
+.item--content {
+    padding: 25px 40px;
+}
+
+.item--content__title {
+    margin-bottom: 50px;
+}
+
+    /* why us? */
+.whyus--content {
+    gap: 50px;
+}
+
+.whyus--content__item {
+    border: 1px solid #797979;
+    padding: 50px 20px;
+    position: relative;
+    align-self: start;
+    width: 300px;
+    height: 350px;
+}
+
+.whyus--content__item .item--title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+
+.whyus--content__item p {
+    font-size: 1.8rem;
+}
+
+.item--icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 1px solid #797979;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4.5rem;
+    position: absolute;
+    top: calc(0% - 35px);
+    right: calc(50% - 35px);
+    z-index: 1;
+    background-color: #ffffff;
+}
+
+    /* what people say? */
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4.5rem;
+    background-color: #ffffff;
+    flex-shrink: 0;
+    margin-right: 30px;
+}
+
+/* hiển thị số dòng tối đa */
+.line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rows{
+    gap: 50px;
+    margin-bottom: 50px;
+}
+
+    /* Where to find us? */
+
+.rows--city{
+    gap: 70px;
+    margin-bottom: 50px;
+}
+
+.row--city__item {
+    width: 200px;
+    min-height: 250px;
+    background-color: #666666;
+    position: relative;
+}
+
+.item--info {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.row--city__item .title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.row--city__item .description {
+    color: #ffffff;
+}
+
+/* footer */
+.footer--info {
+    gap: 100px;
+    color: #7e7e7e;
+}
+
+.footer--info .info--title {
+    font-size: 1.8rem;
+}
+
+.footer--info a {
+    color: #7e7e7e;
+}

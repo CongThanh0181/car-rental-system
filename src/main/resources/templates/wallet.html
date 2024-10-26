@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+    <title>My Wallet</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}">
+
+    <!-- font awesome-->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+
+    <!-- my css -->
+    <link rel="stylesheet" th:href="@{/css/wallet.css}">
+
+</head>
+
+<body>
+    <!-- header -->
+    <header class="header d-flex ml-5 mr-5">
+        <div class="logo flex-grow-1 d-flex align-items-center text-light">
+            <i class="fa-solid fa-car"></i>
+            <h1 class="logo--description font-weight-bold ml-4 display-4">Rent a car today!</h1>
+        </div>
+        <div class="about d-flex align-items-center">
+            <a href="#" class="text-light">ABOUT US</a>
+        </div>
+        <div class="header__action d-flex align-items-center">
+            <div class="dropdown ml-5">
+                <button type="button" class="dropdown-toggle text-light d-flex align-items-center"
+                    data-toggle="dropdown">
+                    <div class="signup__icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <span sec:authentication="principal.fullname"></span>
+                </button>
+                <div class="dropdown-menu" sec:authorize="hasRole('ROLE_CAROWNER')">
+                    <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                    <a class="dropdown-item" th:href="@{/home-carowner/car-list}">My Car</a>
+                    <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                    <a class="dropdown-item" th:href="@{/home-carowner/my-report}">My Reports</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+                <div class="dropdown-menu" sec:authorize="hasRole('ROLE_CUSTOMER')">
+                    <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                    <a class="dropdown-item" th:href="@{/home-customer/booking-list}">My Booking</a>
+                    <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <main class="add-a-car">
+        <!-- wallet header -->
+        <div class="add-a-car__header car-detail__header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" sec:authorize="hasRole('ROLE_CUSTOMER')">
+                        <a th:href="@{/home-customer}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item" sec:authorize="hasRole('ROLE_CAROWNER')">
+                        <a th:href="@{/home-carowner}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item"><a class="text-secondary" href="#">My Wallet</a></li>
+                </ol>
+            </nav>
+            <h2 class="pl-3 header--title">My Wallet</h2>
+        </div>
+
+        <!-- wallet body -->
+        <div class="wallet--body mt-5">
+            <div class="wallet--balance row">
+                <div class="col-6">
+                    <h3 class="wallet--balance__title mb-5">Your current balance:</h3>
+                    <p class="wallet--balance__desc text-success ml-5 w-auto"  id="formattedNumber">
+                        <a class="wallet--balance__desc text-success" id="amountWallet"  th:text="${amountWallet}"></a>
+                        <a class="wallet--balance__desc text-success">VND</a>
+                    </p>
+                </div>
+                <div class="wallet--balance__atc col-6">
+                    <button id="openModalBtn1" class="btn btn-warning mr-5">Withdraw</button>
+                    <button id="openModalBtn2" class="btn btn-success">Top-up</button>
+
+                    <!-- Modal 1 -->
+                    <div id="myModal1" class="modal">
+                        <form id="myForm">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <label for="withDrawNumber">Withdraw Amount:</label>
+                                <input type="text" name="withdrawNumber" id="withdrawNumber" oninput="formatCurrency(this)">
+                                <button type="submit" class="btn-success">Withdraw</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modal 2 -->
+                    <div id="myModal2" class="modal">
+                        <form id="topUpForm">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <label for="topUpInput">Top-up Amount:</label>
+                            <input type="text" name="topUpNumber" id="topUpInput" oninput="formatCurrency(this)">
+                            <button type="submit" class="btn-success">Top-Up</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="wallet--transaction">
+                <div class="row mb-5">
+                    <div class="col">
+                        <h3 class="wallet--transaction__title mb-5">Transaction</h3>
+                    </div>
+                </div>
+                <div class="row ml-5 mr-5 mb-5">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="fromDate">From</label>
+                            <input type="date" class="form-control form-control-lg" id="fromDate">
+                        </div>
+                        
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group mb-5">
+                            <label for="toDate">To</label>
+                            <input type="date" class="form-control form-control-lg" id="toDate">
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <table class="table table-striped table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Date time</th>
+                                    <th scope="col">Booking No.</th>
+                                    <th scope="col">Car Name</th>
+                                    <th scope="col">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>+10.000.000 VND</td>
+                                    <td>Top-up</td>
+                                    <td>12/02/2022 18:00</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>-2.000.000 VND</td>
+                                    <td>Withdrawal</td>
+                                    <td>12/02/2022 18:00</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>-18.000.000 VND</td>
+                                    <td>Pay Deposit</td>
+                                    <td>12/02/2022 18:00</td>
+                                    <td>12345678</td>
+                                    <td>Nissan Navara El 2017</td>
+                                    <td>N/A</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>+1.000.000 VND</td>
+                                    <td>Offset final payment</td>
+                                    <td>12/02/2022 18:00</td>
+                                    <td>12345678</td>
+                                    <td>Nissan Navara El 2017</td>
+                                    <td>N/A</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5</th>
+                                    <td>-500.000 VND</td>
+                                    <td>Offset final payment</td>
+                                    <td>12/02/2022 18:00</td>
+                                    <td>12345678</td>
+                                    <td>Nissan Navara El 2017</td>
+                                    <td>N/A</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>+18.000.000 VND</td>
+                                    <td>Receive deposit</td>
+                                    <td>12/02/2022 18:00</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="wallet--transaction__page d-flex justify-content-end">
+                            <nav aria-label="Page navigation example" class="d-flex align-items-center">
+                                <ul class="pagination justify-content-center py-5 mb-0">
+                                    <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                    </li>
+                                </ul>
+                                <div class="ml-5">
+                                    <input type="number" name="" id="">
+                                    <span>per page</span>
+                                </div>
+                            </nav>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="footer--info item--content bg-light d-flex" sec:authorize="hasRole('ROLE_CAROWNER')">
+            <div>
+                <div class="info--title">RENT CARS</div>
+                <!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Search Cars and Rates</a>-->
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+                <!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Manage My Booking</a>-->
+                <a th:href="@{/wallet}">My Wallet</a>
+                <a th:href="@{/home-carowner/car-list}">My Car</a>
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+                <!--                <a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+
+        <div class="footer--info item--content bg-light d-flex" sec:authorize="hasRole('ROLE_CUSTOMER')">
+            <div>
+                <div class="info--title">RENT CARS</div>
+                <a th:href="@{/home-customer/search-result}">Search Cars and Rates</a>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+                <a th:href="@{/home-customer/booking-list}">Manage My Booking</a>
+                <a th:href="@{/wallet}">My Wallet</a>
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                <!--                <a href="#">My Car</a>-->
+                <!--                <a href="#">Log In</a>-->
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+                <!--                <a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/wallet.js}"></script>
+    <!-- my js -->
+
+</body>
+
+</html>

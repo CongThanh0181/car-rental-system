@@ -1,0 +1,13 @@
+@import url(./booking-list.css);
+
+.btn__add-car {
+    min-width: 0;
+}
+
+.booking-list .preview--atc .btn {
+    padding: 10px
+}
+
+.page-item:hover {
+    cursor: pointer;
+}

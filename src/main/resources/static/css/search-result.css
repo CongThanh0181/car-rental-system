@@ -1,0 +1,31 @@
+@import url(./home-customer.css);
+
+#search-form {
+    padding: 20px 50px;
+}
+
+.content--result {
+    background-color: #ffffff;
+}
+
+.thead-light th:last-child {
+    width: 150px;
+}
+
+.table {
+    margin-bottom: 3rem;
+}
+
+table .btn {
+    min-width: 100px;
+    width: 150px;
+    padding: 10px;
+}
+
+.pagination {
+    margin: 0px !important;
+}
+
+.result--info {
+    padding-bottom: 30px;
+}

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+
+    <title>Home Customer</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}">
+
+     <!-- font awesome-->
+     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+
+    <!-- my css -->
+    <link rel="stylesheet" th:href="@{/css/home-customer.css}">
+
+  </head>
+  <body>
+    <!-- header -->
+    <header class="header d-flex ml-5 mr-5">
+        <div class="logo flex-grow-1 d-flex align-items-center text-light">
+            <i class="fa-solid fa-car"></i>
+            <h1 class="logo--description font-weight-bold ml-4 display-4">Rent a car today!</h1>
+        </div>
+        <div class="about d-flex align-items-center">
+            <a href="#" class="text-light">ABOUT US</a>
+        </div>
+        <div class="header__action d-flex align-items-center">
+            <div class="dropdown ml-5">
+                <button type="button" class="dropdown-toggle text-light d-flex align-items-center" data-toggle="dropdown">
+                    <div class="signup__icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <span sec:authentication="principal.fullname"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                    <a class="dropdown-item" th:href="@{/home-customer/booking-list}">My Booking</a>
+                    <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <main>
+        <!-- banner -->
+        <div class="banner d-flex text-light">
+            <div class="marketing">
+                <h2 class="marketing--title display-4 mb-5">Looking for a vehicle?<br/> You’re at the right place.</h2>
+                <div class="marketing--description">
+                    <p>We have a large selection of locally owned cars available for you to choose from. Rental plans are customized to suit your needs.<br/><br/> With over 300 cars located nationwide we will have something for you.</p>
+                </div>
+            </div>
+            <div class="search-form">
+                <h2 class="display-4 text-center mb-5">Find the ideal car rental for your trip</h2>
+                <form th:action="@{/home-customer/search-result/action}" id="search-form" method="GET">
+                    <div class="form-group mb-5">
+                        <label for="location">PICK-UP LOCATION</label>
+                        <input type="text" class="form-control form-control-lg" placeholder="Enter your location" id="location" name="location" th:value="${location}" required>
+                    </div>
+                    <div class="form-group mb-5">
+                        <label>PICK-UP DATE AND TIME</label>
+                        <div class="d-flex">
+                            <input type="date" class="form-control form-control-lg mr-5" name="pickUpDate" th:value="${pickUpDate}"  id="date-pick-up" required>
+                            <input type="time" class="form-control form-control-lg" name="pickUpTime" th:value="${pickUpTime}" id="time-pick-up" required>
+                        </div>
+                    </div>
+                    <div class="form-group mb-5">
+                        <label>DROP-OFF DATE AND TIME</label>
+                        <div class="d-flex">
+                            <input type="date" class="form-control form-control-lg mr-5" name="dropOffDate" th:value="${dropOffDate}" id="date-drop-off" required>
+                            <input type="time" class="form-control form-control-lg" name="dropOffTime" th:value="${dropOffTime}" id="time-drop-off" required>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">SEARCH</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- main content -->
+       <div class="main--content">
+            <!-- why us? -->
+            <div class="item--content bg-white">
+                <h3 class="item--content__title display-4 font-weight-bold">Why us?</h3>
+                <div class="whyus--content d-flex">
+                    <div class="whyus--content__item flex-fill">
+                        <div class="item--icon">
+                            <i class="fa-regular fa-money-bill-1"></i>
+                        </div>
+                        <h4 class="item--title">Save money</h4>
+                        <p class="line-clamp">We have no setup or registration fees. You are only charged when you rent a car. So get started for FREE!</p>
+                    </div>
+
+                    <div class="whyus--content__item flex-fill">
+                        <div class="item--icon">
+                            <i class="fa-solid fa-street-view"></i>
+                        </div>
+                        <h4 class="item--title">Convenient</h4>
+                        <p class="line-clamp">We have a large selection of privately owned cars to suit your needs throughout the country</p>
+                    </div>
+
+                    <div class="whyus--content__item flex-fill">
+                        <div class="item--icon">
+                            <i class="fa-solid fa-gavel"></i>
+                        </div>
+                        <h4 class="item--title">Legal and insurance</h4>
+                        <p class="line-clamp">We fully cover all rentals and even provide roadside assistance. Our rating system and extended member profile checks provide safety.</p>
+                    </div>
+
+                    <div class="whyus--content__item flex-fill">
+                        <div class="item--icon">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <h4 class="item--title">24/7 support</h4>
+                        <p class="line-clamp">Our team is ready to support you all along the way with our 24/7 hotline and services</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What people say? -->
+            <div class="item--content bg-light">
+                <h3 class="item--content__title display-4 font-weight-bold">Why people say?</h3>
+                <div class="item--content__body">
+                    <div class="rows d-flex">
+                        <div class="row--item d-flex">
+                            <div class="avatar">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <p class="comment line-clamp">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem eveniet excepturi recusandae quam dolores saepe distinctio, perferendis expedita eos odio harum. Dignissimos saepe sint eos quos deserunt. Nemo, delectus pariatur?</p>
+                        </div>
+                        <div class="row--item d-flex">
+                            <div class="avatar">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <p class="comment line-clamp">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem eveniet excepturi recusandae quam dolores saepe distinctio, perferendis expedita eos odio harum. Dignissimos saepe sint eos quos deserunt. Nemo, delectus pariatur?</p>
+                        </div>
+                    </div>
+                    <div class="rows d-flex">
+                        <div class="row--item d-flex">
+                            <div class="avatar">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <p class="comment line-clamp">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem eveniet excepturi recusandae quam dolores saepe distinctio, perferendis expedita eos odio harum. Dignissimos saepe sint eos quos deserunt. Nemo, delectus pariatur?</p>
+                        </div>
+                        <div class="row--item d-flex">
+                            <div class="avatar">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <p class="comment line-clamp">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem eveniet excepturi recusandae quam dolores saepe distinctio, perferendis expedita eos odio harum. Dignissimos saepe sint eos quos deserunt. Nemo, delectus pariatur?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Where to find us? -->
+            <div class="item--content bg-white">
+                <h3 class="item--content__title display-4 font-weight-bold">Where to find us?</h3>
+                <div class="item--content__body">
+                    <div class="rows--city d-flex">
+                        <div class="row--city__item flex-fill">
+                            <div class="item--info">
+                                <div class="title">Hanoi</div>
+                                <div class="description">80+ car</div>
+                            </div>
+                        </div>
+                        <div class="row--city__item flex-fill">
+                            <div class="item--info">
+                                <div class="title">Ho Chi Minh city</div>
+                                <div class="description">100+ car</div>
+                            </div>
+                        </div>
+                        <div class="row--city__item flex-fill">
+                            <div class="item--info">
+                                <div class="title">Da Nang - Hoi An</div>
+                                <div class="description">90+ car</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item--content__body">
+                    <div class="rows--city d-flex">
+                        <div class="row--city__item flex-fill">
+                            <div class="item--info">
+                                <div class="title">Nha Trang</div>
+                                <div class="description">50+ car</div>
+                            </div>
+                        </div>
+                        <div class="row--city__item flex-fill">
+                            <div class="item--info">
+                                <div class="title">Da Lat</div>
+                                <div class="description">80+ car</div>
+                            </div>
+                        </div>
+                        <div class="row--city__item flex-fill">
+                            <div class="item--info">
+                                <div class="title">Quang Ninh</div>
+                                <div class="description">70+ car</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="footer--info item--content bg-light d-flex">
+            <div>
+                <div class="info--title">RENT CARS</div>
+                <a href="#">Search Cars and Rates</a>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+                <a href="#">Manage My Booking</a>
+                <a href="#">My Wallet</a>
+                <a href="#">My Car</a>
+<!--                <a href="#">Log In</a>-->
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+<!--                <a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- my js -->
+    <script th:src="@{/js/home-customer.js}"></script>
+
+  </body>
+</html>

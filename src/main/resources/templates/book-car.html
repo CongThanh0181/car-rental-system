@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+    <title>Book Car</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}">
+
+    <!-- font awesome-->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+
+    <!-- my css -->
+    <link rel="stylesheet" th:href="@{/css/book-car.css}">
+
+</head>
+
+<body>
+    <!-- header -->
+    <header class="header d-flex ml-5 mr-5">
+        <div class="logo flex-grow-1 d-flex align-items-center text-light">
+            <i class="fa-solid fa-car"></i>
+            <h1 class="logo--description font-weight-bold ml-4 display-4">Rent a car today!</h1>
+        </div>
+        <div class="about d-flex align-items-center">
+            <a href="#" class="text-light">ABOUT US</a>
+        </div>
+        <div class="header__action d-flex align-items-center">
+            <div class="dropdown ml-5">
+                <button type="button" class="dropdown-toggle text-light d-flex align-items-center"
+                    data-toggle="dropdown">
+                    <div class="signup__icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <span sec:authentication="principal.fullname"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                    <a class="dropdown-item" th:href="@{/home-customer/booking-list}">My Booking</a>
+                    <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <main class="add-a-car">
+        <!-- car detail header -->
+        <div class="add-a-car__header car-detail__header bg-light">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-light">
+                    <li class="breadcrumb-item"><a th:href="@{/home-customer}">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-secondary" href="#">Book car</a></li>
+                </ol>
+            </nav>
+        </div>
+        <div>
+            <!--Booking Details-->
+            <input type="hidden" id="hiddenPickUpDate" th:value="${pickUpDate}">
+            <input type="hidden" id="hiddenPickUpTime" th:value="${pickUpTime}">
+            <input type="hidden" id="hiddenDropOffDate" th:value="${dropOffDate}">
+            <input type="hidden" id="hiddenDropOffTime" th:value="${dropOffTime}">
+            <div class="booking--details flex-grow-1 text-light">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="booking--details__title mb-3">Booking Details</h3>
+                        <ul>
+                            <li class="mb-3">Pick-up location:
+                                <span class="font-weight-bold" th:text="${location}"></span>
+                            </li>
+                            <li class="mb-3">Pick up date and time
+                                <span class="font-weight-bold" th:text="${pickUpDate}"></span> -
+                                <span class="font-weight-bold" th:text="${pickUpTime}"></span>
+                            </li>
+                            <li class="mb-3">Return date and time
+                                <span class="font-weight-bold" th:text="${dropOffDate}"></span> -
+                                <span class="font-weight-bold" th:text="${dropOffTime}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col text-right">
+                    <button type="button" class="btn-change-detail btn btn-link border-0 text-light"> <i class="fa-solid fa-pen-to-square"></i> Change details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="add-a-car__info">
+            <div class="">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#step1">Step 1: Booking Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#step2">Step 2: Payment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#step3">Step 3: Finish</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <!-- Tab content -->
+                <form id="bookCarForm" enctype="multipart/form-data">
+                    <div class="tab-content mb-5">
+
+                            <!-- step1 -->
+                            <div id="step1" class="container tab-pane active">
+                                <div class="container border border-2 mb-5">
+                                    <!-- preview booking -->
+                                    <div class="row">
+                                        <!--Car information-->
+                                        <input type="hidden" id="hiddenCarId" th:value="${car.getCarId()}">
+                                        <div class="col-sm-6 border-right">
+                                            <div class="mb-4">
+                                                <div id="carouselExampleIndicators" class="carousel slide mt-4" data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                                                        </li>
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageFront()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageBack()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageLeft()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageRight()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <button class="carousel-control-prev" type="button"
+                                                            data-target="#carouselExampleIndicators" data-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button"
+                                                            data-target="#carouselExampleIndicators" data-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 class="preview--description__title display-4 mb-5"
+                                                    th:text="${car.getBrand() + ' ' + car.getModel() + ' ' + car.getProductionYear()}">
+                                                </h4>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Ratings:</span>
+                                                    </div>
+                                                    <div class="col-8 preview--description__info">
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <span>(No ratings yet)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">No. of rides:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <span class="preview--description__info" th:text="${car.getMileage()}"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Price:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                    <span class="preview--description__info">
+                                                        <span th:text="${car.getBasePrice()}"></span>
+                                                        k/day
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Locations:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                    <span class="preview--description__info"
+                                                          th:text="${car.getAddress().getDistrict() + ', ' + car.getAddress().getCity()}">
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Status:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <span class="preview--description__info text-success" th:text="${car.getCarStatus().getStatus()}">Available</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--Booking summary-->
+                                        <div class="col-sm-6 my-5">
+                                            <h4 class="booking-summary__title">Booking Summary</h4>
+                                            <div class="booking-summary__info text-right my-5">
+                                                <input type="hidden" id="hiddenTotalAmount" th:value="${car.basePrice * numberOfDay}">
+
+                                                <p><b>Number of days:</b> <span th:text="${numberOfDay}"></span></p>
+                                                <p><b>Price per day:</b> <span th:text="${car.basePrice}"></span></p>
+                                                <hr>
+                                                <p><b>Total:</b> <span th:text="${car.basePrice * numberOfDay}"></span> VND</p>
+                                                <p><b>Deposit:</b> <span th:text="${car.deposit}"></span> VND</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Renter's information-->
+                                <div class="mb-5">
+                                    <h4 class="renter--title mb-5">Renter's Information</h4>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Full Name: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-lg" name="fullName"
+                                                       th:value="${userz.getFullName()}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phone Number: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-lg" name="phone"
+                                                       th:value="${userz.getUserDetail().getPhone()}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>National ID No.: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-lg" name="nationalIdNo"
+                                                       th:value="${userz.getUserDetail().getNationalIdNo()}" disabled>
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <label class="mb-3">Adress: <span class="text-danger">*</span></label>
+                                                <div class="form-group d-flex flex-column mb-5">
+                                                    <select name="city" class="form-control form-control-lg" disabled>
+                                                        <option th:text="${userz.getUserDetail().getAddress().getCity()}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group d-flex flex-column mb-5">
+                                                    <select name="district" class="form-control form-control-lg" disabled>
+                                                        <option th:text="${userz.getUserDetail().getAddress().getDistrict()}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group d-flex flex-column mb-5">
+                                                    <select name="ward" class="form-control form-control-lg" disabled>
+                                                        <option th:text="${userz.getUserDetail().getAddress().getWard()}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-5">
+                                                    <input type="text" class="form-control form-control-lg" name="houseNumberStreet"
+                                                           th:value="${userz.getUserDetail().getAddress().getStreetHomeNumber()}" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="dateOfBirth">Date Of Birth: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control form-control-lg" name="dateOfBirth"
+                                                       th:value="${userz.getUserDetail().getDateOfBirth()}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email Address: <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control form-control-lg" name="email"
+                                                       th:value="${userz.getEmail()}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="drivingLicense">Driving License: <span class="text-danger">*</span></label>
+                                                <input type="file" class="form-control form-control-lg" name="drivingLicense" disabled>
+                                            </div>
+                                            <div class="mt-4">
+                                                <img class="thumbnail" id="thumbnailFileDrivingLicense" name="thumbnailFileDrivingLicense"
+                                                     th:if="${userz.getUserDetail().getDrivingLicense().getUrlImage() == null}">
+                                                <img class="thumbnail" id="thumbnailFileDrivingLicense" name="thumbnailFileDrivingLicense"
+                                                     th:if="${userz.getUserDetail().getDrivingLicense().getUrlImage() != null}"
+                                                     th:src="@{/image/driving-license/__${userz.getUserId()}__/__${userz.getUserDetail().getDrivingLicense().getUrlImage()}__}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Driver information -->
+                                <div>
+                                    <h4 class="renter--title mb-5">Driver's Information</h4>
+                                    <div class="form-check d-flex align-items-center mb-5">
+                                        <input class="form-check-input" name="isDriver" id="isDriver" type="checkbox">
+                                        <label class="form-check-label ml-3" for="isDriver">Difference than Renter's information</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="driverName">Full Name: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-lg" id="driverName" name="driverName" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phone">Phone Number: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-lg" id="phone" name="driverPhone" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="nationalIdNo">National ID No.: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-lg" id="nationalIdNo" name="driverNationalIdNo" disabled>
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <label class="mb-3">Adress: <span class="text-danger">*</span></label>
+                                                <div class="form-group d-flex flex-column mb-5">
+                                                    <select name="driverCity" class="form-control form-control-lg" disabled>
+                                                        <option value="" disabled selected hidden>City/Province</option>
+                                                        <option th:each="city : ${cities}"
+                                                                th:value="${city.getCityId()}"
+                                                                th:text="${city.getCityName()}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group d-flex flex-column mb-5">
+                                                    <select name="driverDistrict" class="form-control form-control-lg" disabled>
+                                                        <option value="" disabled selected hidden>District</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group d-flex flex-column mb-5">
+                                                    <select name="driverWard" class="form-control form-control-lg" disabled>
+                                                        <option value="" disabled selected hidden>Ward</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-5">
+                                                    <input type="text" class="form-control form-control-lg" id="mileage"
+                                                           placeholder="House number, Street" name="driverHouseNumberStreet" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="dateOfBirth">Date Of Birth: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control form-control-lg" id="dateOfBirth" name="driverDateOfBirth" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email Address: <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control form-control-lg" id="email" name="driverEmail" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="drivingLicense">Driving License: <span class="text-danger">*</span></label>
+                                                <input type="file" class="form-control form-control-lg" id="drivingLicense" name="driverDrivingLicense"
+                                                       accept=".doc, .docx, .pdf, .jpg , .jpeg , .png" maxFileSize="30000000" disabled>
+                                            </div>
+                                            <div>
+                                                <img alt="" class="thumbnail" id="thumbnailDrivingLicenseDriver" style="max-width: 200px; max-height: 200px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Next button -->
+                                <div class="next-step__action d-flex align-items-center justify-content-center mt-5">
+                                    <a href="#">Cancel</a>
+                                    <button type="button" id="nextButton" class="btn btn-primary ml-5">Next</button>
+                                </div>
+                            </div>
+
+                            <!-- step2 -->
+                            <div id="step2" class="container tab-pane fade">
+                                <div class="container border border-2 mb-5">
+                                    <!-- preview booking -->
+                                    <div class="row">
+                                        <!--Car information-->
+                                        <div class="col-sm-6 border-right">
+                                            <div class="mb-4">
+                                                <div id="carouselExampleIndicators2" class="carousel slide mt-4" data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        <li data-target="#carouselExampleIndicators2" data-slide-to="0" class="active">
+                                                        </li>
+                                                        <li data-target="#carouselExampleIndicators2" data-slide-to="1"></li>
+                                                        <li data-target="#carouselExampleIndicators2" data-slide-to="2"></li>
+                                                        <li data-target="#carouselExampleIndicators2" data-slide-to="3"></li>
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageFront()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageBack()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageLeft()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img th:src="@{/image/image-car/__${car.getCarId()}__/__${car.getImageCar().getUrlImageRight()}__}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <button class="carousel-control-prev" type="button"
+                                                            data-target="#carouselExampleIndicators2" data-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button"
+                                                            data-target="#carouselExampleIndicators2" data-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 class="preview--description__title display-4 mb-5"
+                                                    th:text="${car.getBrand() + ' ' + car.getModel() + ' ' + car.getProductionYear()}">
+                                                </h4>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Ratings:</span>
+                                                    </div>
+                                                    <div class="col-8 preview--description__info">
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <span>(No ratings yet)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">No. of rides:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <span class="preview--description__info" th:text="${car.getMileage()}"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Price:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                    <span class="preview--description__info">
+                                                        <span th:text="${car.getBasePrice()}"></span>
+                                                        k/day
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Locations:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                    <span class="preview--description__info"
+                                                          th:text="${car.getAddress().getDistrict() + ', ' + car.getAddress().getCity()}">
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <span class="preview--description__lable">Status:</span>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <span class="preview--description__info text-success" th:text="${car.getCarStatus().getStatus()}">Available</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--Booking summary-->
+                                        <div class="col-sm-6 my-5">
+                                            <h4 class="booking-summary__title">Booking Summary</h4>
+                                            <div class="booking-summary__info text-right my-5">
+                                                <p><b>Number of days:</b> <span th:text="${numberOfDay}"></span></p>
+                                                <p><b>Price per day:</b> <span th:text="${car.basePrice}"></span></p>
+                                                <hr>
+                                                <p><b>Total:</b> <span th:text="${car.basePrice * numberOfDay}"></span> VND</p>
+                                                <p><b>Deposit:</b> <span th:text="${car.deposit}"></span> VND</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-5">
+                                    <h4 class="renter--title mb-5">Please select your payment method</h4>
+                                    <div id="paymentMethodContainer">
+                                        <div class="form-check form-group mb-4">
+                                            <input class="form-check-input-center" type="radio" name="paymentMethod" id="wallet" value="MY_WALLET">
+                                            <label class="form-check-label" for="wallet">
+                                                My Wallet
+                                            </label>
+                                            <p class="mt-2"> Current balance: 20,000,000 VND</p>
+                                            <span class="booking--payment__error"></span>
+                                        </div>
+                                        <div class="form-check form-group mb-4">
+                                            <input class="form-check-input-center" type="radio" name="paymentMethod" id="cash" value="CASH">
+                                            <label class="form-check-label" for="cash">
+                                                Cash
+                                            </label>
+                                            <p class="mt-2"> Our operator will contact you for further instruction</p>
+                                        </div>
+                                        <div class="form-check form-group mb-4">
+                                            <input class="form-check-input-center" type="radio" name="paymentMethod" id="bankTransfer" value="BANK_TRANSFER">
+                                            <label class="form-check-label" for="bankTransfer">
+                                                Bank Transfer
+                                            </label>
+                                            <p class="mt-2"> Our operator will contact you for further instruction</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="paymentMethodErr"></div>
+                                </div>
+
+                                <p class="text-center">
+                                    <em>The deposit amount will be deducted from your wallet if you choose "My Wallet" as
+                                        your payment method.</em>
+                                </p>
+
+                                <!-- Next button -->
+                                <div class="next-step__action d-flex align-items-center justify-content-center mt-5">
+                                    <a href="#">Cancel</a>
+                                    <button type="submit" id="confirmPayment" class="btn btn-primary ml-5">Confirm Payment</button>
+                                </div>
+                            </div>
+
+                            <!-- step3 -->
+                            <div id="step3" class="container tab-pane fade">
+                                <div class="container mt-5">
+                                    <div class="alert alert-success" role="alert">
+                                        <h4 class="alert-heading">You've successfully booked <span id="brandModelYearOfCar"></span>!</h4>
+                                        <p>From <span id="pickUp"></span> to <span id="dropOff"></span>.</p>
+                                        <hr>
+                                        <p class="mb-0">Your booking number is: <span id="bookingNo"></span></p>
+                                        <p class="mb-0">Our operator will contact you with further guidance about pickup.</p>
+                                    </div>
+                                </div>
+                                <!-- Next button -->
+                                <div class="next-step__action d-flex align-items-center justify-content-center mt-5">
+                                    <a th:href="@{/home-customer}" class="btn btn-secondary mr-5">Go to homepage</a>
+                                    <a th:href="@{/home-customer/search-result}" class="btn btn-primary mr-5">Book another car</a>
+                                    <a th:href="@{/home-customer/booking-list}" class="btn btn-success mr-5">View Booking</a>
+                                </div>
+                            </div>
+
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="footer--info item--content bg-light d-flex">
+            <div>
+                <div class="info--title">RENT CARS</div>
+                <a th:href="@{/home-customer/search-result}">Search Cars and Rates</a>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+                <a th:href="@{/home-customer/booking-list}">Manage My Booking</a>
+                <a th:href="@{/wallet}">My Wallet</a>
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                <!--                <a href="#">My Car</a>-->
+                <!--                <a href="#">Log In</a>-->
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+                <!--                <a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+    <script th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- my js -->
+    <script th:src="@{/js/book-car.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+@import url(./car-detail.css);
+
+.preview--atc .btn {
+    padding: 10px;
+    min-width: 160px;
+}
+
+.renter--title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#car-information,
+#payment-information,
+#booking-information {
+    padding-left: 50px;
+}
+
+#booking-information select,
+#booking-information input:not(input[type="checkbox"], input[type="radio"]) {
+    width: 70%;
+}
+
+#car-information span {
+    font-weight: 600;
+}
+
+.tab-content {
+    padding-bottom: 30px;
+}

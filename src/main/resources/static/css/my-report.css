@@ -1,0 +1,53 @@
+@import url(./car-detail.css);
+
+main {
+    background-color: #ffffff;
+}
+
+.car-detail__header {
+    border: none;
+}
+
+.feedback-item,
+.feedback-reports__header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.average-ratings {
+    padding: 50px;
+}
+
+.average-ratings__title {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.rating-point {
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.rating-star {
+    font-size: 3rem;
+}
+
+.detail-btn-groups {
+    gap: 30px;
+}
+
+.detail-btn-groups .btn{ 
+    width: 200px;
+    min-width: 150px;
+    border-radius: 7px;
+}
+
+.detail-btn-groups .btn:hover {
+    border: 1px solid #017bff;
+    border-radius: 7px;
+    color: #017bff;
+}
+
+.feedback-item .row{
+    padding: 50px;
+    margin-right: 0;
+}

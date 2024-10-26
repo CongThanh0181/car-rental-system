@@ -1,0 +1,30 @@
+@import url(./car-detail.css);
+main {
+    background-color: #ffffff;
+}
+
+.booking-list__header .breadcrumb {
+    background-color: #ffffff;
+}
+
+.header--desc {
+    padding: 0 30px;
+    margin-top: 20px;
+}
+
+.booking-list {
+    padding-bottom: 30px;
+}
+
+.booking-list .car-detail__preview {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.booking-list .preview--atc .btn {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.booking-list footer {
+    background-color: #e5e5e5;
+}

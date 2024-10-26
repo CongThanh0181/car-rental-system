@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    
+    <title>Home Car Owner</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}">
+
+     <!-- font awesome-->
+     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+
+    <!-- my css -->
+    <link rel="stylesheet" th:href="@{/css/home-carowner.css}">
+
+  </head>
+  <body>
+    <!-- header -->
+    <header class="header d-flex ml-5 mr-5">
+        <div class="logo flex-grow-1 d-flex align-items-center text-light">
+            <i class="fa-solid fa-car"></i>
+            <h1 class="logo--description font-weight-bold ml-4 display-4">Rent a car today!</h1>
+        </div>
+        <div class="about d-flex align-items-center">
+            <a href="#" class="text-light">ABOUT US</a>
+        </div>
+        <div class="header__action d-flex align-items-center">
+            <div class="dropdown ml-5">
+                <button type="button" class="dropdown-toggle text-light d-flex align-items-center"
+                        data-toggle="dropdown">
+                    <div class="signup__icon">
+                        <i class="fa-solid fa-user-tie"></i> 
+                    </div>
+                    <span sec:authentication="principal.fullname"></span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                  <a class="dropdown-item" th:href="@{/home-carowner/car-list}">My Car</a>
+                  <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                  <a class="dropdown-item" th:href="@{/home-carowner/my-report}">My Reports</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <main>
+        <!-- benefit -->
+        <div class="benefit bg-light">
+            <h2 class="benefit--title display-4">Have a car for rent? Don't miss out of your benefit</h2>
+            <div class="benefit--content">
+                <!-- row 1 -->
+                <div class="benefit--row d-flex align-items-start">
+                    <div class="benefit--item flex-fill">
+                        <div class="benefit--item__header d-flex align-items-center">
+                            <div class="header--icon mr-2">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                            </div>
+                            <h2 class="header--title">How the insurance works</h2>
+                        </div>
+                        <p class="benefit--item__body mt-3">
+                            From the minute you hand the keys over till the second you get
+                            them back you are covered. Your private insurance is not affected.
+                        </p>
+                    </div>
+                    <div class="benefit--item flex-fill">
+                        <div class="benefit--item__header d-flex align-items-center">
+                            <div class="header--icon mr-2">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <h2 class="header--title">It's completely free</h2>
+                        </div>
+                        <p class="benefit--item__body mt-3">
+                            We offer both owners and renters free sign ups. It's only once a vehicle
+                            is rented out that a share is deducted to cover admin and insurance.
+                        </p>
+                    </div>
+                    <div class="benefit--item flex-fill">
+                        <div class="benefit--item__header d-flex align-items-center">
+                            <div class="header--icon mr-2">
+                                <i class="fa-regular fa-circle-check"></i>
+                            </div>
+                            <h2 class="header--title">You decide the price</h2>
+                        </div>
+                        <p class="benefit--item__body mt-3">
+                            When you list a car you decide the price. We can help with
+                            recommendations as to price, but ultimately you decide!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- row 2 -->
+                <div class="benefit--row d-flex align-items-start">
+                    <div class="benefit--item flex-fill">
+                        <div class="benefit--item__header d-flex align-items-center">
+                            <div class="header--icon mr-2">
+                                <i class="fa-solid fa-car-rear"></i>
+                            </div>
+                            <h2 class="header--title">Handing over your vehicle</h2>
+                        </div>
+                        <p class="benefit--item__body mt-3">
+                            You arrange the time and location for the exchange of your
+                            vehicle with the renter. Both parties will need to agree and sign the vehicle rental sheet
+                            before and after key handover.
+                        </p>
+                    </div>
+                    <div class="benefit--item flex-fill">
+                        <div class="benefit--item__header d-flex align-items-center">
+                            <div class="header--icon mr-2">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <h2 class="header--title">You are in charge</h2>
+                        </div>
+                        <p class="benefit--item__body mt-3">
+                            All renters are pre-screened by us to ensure safety and get your
+                            approval. If you do not feel comfortable with someone you are able to decline a booking.
+                        </p>
+                    </div>
+                    <div class="benefit--item flex-fill">
+                        <div class="benefit--item__header d-flex align-items-center">
+                            <div class="header--icon mr-2">
+                                <i class="fa-regular fa-credit-card"></i>
+                            </div>
+                            <h2 class="header--title">Set payment</h2>
+                        </div>
+                        <p class="benefit--item__body mt-3">
+                            We pay you once a month and you can always view how much your car has
+                            earned under your user profile.
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- action -->
+        <div class="action">
+            <h2 class="action--title display-4">Make money on your car right away</h2>
+            <div class="d-flex justify-content-center">
+                <!--sử lý ajax bên js-->
+                <button id="btn-listYourCarToday" class="btn btn-primary btn-lg">List Your Car Today</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="footer--info item--content bg-light d-flex">
+            <div>
+                <div class="info--title">RENT CARS</div>
+<!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Search Cars and Rates</a>-->
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+<!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Manage My Booking</a>-->
+                <a th:href="@{/wallet}">My Wallet</a>
+                <a th:href="@{/home-carowner/car-list}">My Car</a>
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+<!--                <a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+    </footer>
+    
+        
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- my js -->
+    <script th:src="@{/js/home-carowner.js}"></script>
+  </body>
+</html>

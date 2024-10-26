@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+    <title>Edit Profile</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}">
+
+    <!-- font awesome-->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+
+    <!-- my css -->
+    <link rel="stylesheet" th:href="@{/css/edit-profile.css}">
+
+</head>
+
+<body>
+    <!-- header -->
+    <header class="header d-flex ml-5 mr-5">
+        <div class="logo flex-grow-1 d-flex align-items-center text-light">
+            <i class="fa-solid fa-car"></i>
+            <h1 class="logo--description font-weight-bold ml-4 display-4">Rent a car today!</h1>
+        </div>
+        <div class="about d-flex align-items-center">
+            <a href="#" class="text-light">ABOUT US</a>
+        </div>
+        <div class="header__action d-flex align-items-center">
+            <div class="dropdown ml-5">
+                <button type="button" class="dropdown-toggle text-light d-flex align-items-center"
+                        data-toggle="dropdown">
+                    <div class="signup__icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <span sec:authentication="principal.fullname"></span>
+                </button>
+                <div class="dropdown-menu" sec:authorize="hasRole('ROLE_CAROWNER')">
+                    <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                    <a class="dropdown-item" th:href="@{/home-carowner/car-list}">My Car</a>
+                    <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                    <a class="dropdown-item" th:href="@{/home-carowner/my-report}">My Reports</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+                <div class="dropdown-menu" sec:authorize="hasRole('ROLE_CUSTOMER')">
+                    <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                    <a class="dropdown-item" th:href="@{/home-customer/booking-list}">My Booking</a>
+                    <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <main class="add-a-car">
+        <!-- add a car header -->
+        <div class="add-a-car__header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" sec:authorize="hasRole('ROLE_CUSTOMER')">
+                        <a th:href="@{/home-customer}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item" sec:authorize="hasRole('ROLE_CAROWNER')">
+                        <a th:href="@{/home-carowner}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item"><a class="text-secondary" href="#">My Profile</a></li>
+                </ol>
+            </nav>
+            <h2 class="pl-3 header--title">My Profile</h2>
+        </div>
+        <!-- add a car info -->
+        <div class="add-a-car__info">
+            <div class="car-detail__info">
+                <div class="">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                      <li class="nav-item ml-5">
+                        <a class="nav-link active" data-toggle="tab" href="#personalInformation">Personal Information</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#security">Security</a>
+                      </li>
+                    </ul>
+                  
+                    <!-- Tab panes -->
+                    <div class="tab-content mt-0 ml-5">
+                        <!-- tab personalInformation -->
+                        <div id="personalInformation" class="tab-pane active pb-3">
+                            <form id="personalInformationForm" action="/edit-profile" method="POST" enctype="multipart/form-data">
+                                <div class="row mb-5 mt-5">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-lg" id="fullName"
+                                               th:value="${userz.getFullName()}" name="fullName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-lg" id="phone" name="phone"
+                                               th:value="${userz.getUserDetail().getPhone()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nationalIdNo">National ID No.: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-lg" id="nationalIdNo" name="nationalIdNo"
+                                               th:value="${userz.getUserDetail().getNationalIdNo()}">
+                                    </div>
+                                    <div class="form-group mt-5">
+                                        <label class="mb-3">Adress: <span class="text-danger">*</span></label>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <select name="city" class="form-control form-control-lg">
+                                                <option value="" disabled selected hidden>City/Province</option>
+                                                <option th:each="city : ${cities}"
+                                                        th:value="${city.getCityId()}"
+                                                        th:text="${city.getCityName()}"
+                                                        th:selected="${city.getCityName() == userz.getUserDetail()?.getAddress()?.getCity()}"
+                                                ></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <select name="district" class="form-control form-control-lg">
+                                                <option  th:value="${district?.getDistrictId()}"
+                                                         th:text="${district?.getDistrictName() == null ? 'District' : district?.getDistrictName()}"
+                                                         th:selected="${district?.getDistrictName() == userz.getUserDetail()?.getAddress()?.getDistrict()}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <select name="ward" class="form-control form-control-lg">
+                                                <option th:value="${ward?.getWardId()}"
+                                                      th:text="${ward?.getWardName() == null ? 'Ward' : ward?.getWardName()}"
+                                                      th:selected="${ward?.getWardName() == userz.getUserDetail()?.getAddress()?.getWard()}">Ward</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-5">
+                                            <input type="text" class="form-control form-control-lg" id="mileage"
+                                                   placeholder="House number, Street" name="streetHomeNumber"
+                                            th:value="${userz.getUserDetail()?.getAddress()?.getStreetHomeNumber()}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="dateOfBirth">Date Of Birth: <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control form-control-lg" id="dateOfBirth" name="dateOfBirth"
+                                               th:value="${userz.getUserDetail().getDateOfBirth()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address: <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control form-control-lg" id="email" name="email"
+                                               th:value="${userz.getEmail()}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="drivingLicense">Driving License: <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control form-control-lg" id="drivingLicense" name="fileLicenseImg"
+                                               accept=".doc, .docx, .pdf, .jpg , .jpeg , .png" maxFileSize="30000000">
+                                    </div>
+                                    <span id="drivingLicenseErr" class="fileLicenseImgErr text-danger"></span>
+                                    <div class="mt-4">
+                                        <img class="thumbnail" id="thumbnailFileDrivingLicense" name="thumbnailFileDrivingLicense"
+                                             th:if="${userz.getUserDetail().getDrivingLicense().getUrlImage() == null}">
+                                        <img class="thumbnail" id="thumbnailFileDrivingLicense" name="thumbnailFileDrivingLicense"
+                                             th:if="${userz.getUserDetail().getDrivingLicense().getUrlImage() != null}"
+                                             th:src="@{/image/driving-license/__${userz.getUserId()}__/__${userz.getUserDetail().getDrivingLicense().getUrlImage()}__}">
+                                    </div>
+                                </div>
+                            </div>
+                                <!-- Next button -->
+                                <div class="d-flex align-items-center justify-content-center mt-5">
+                                    <a sec:authorize="hasRole('ROLE_CAROWNER')"
+                                       th:href="@{/home-carowner}" class="text-secondary">Discard</a>
+                                    <a sec:authorize="hasRole('ROLE_CUSTOMER')"
+                                       th:href="@{/home-customer}" class="text-secondary">Discard</a>
+                                    <button type="submit" id="savePersonalInformation" class="btn btn-primary ml-5">Save</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- tab security -->
+                        <div id="security" class="tab-pane fade pb-3">
+                            <form id="securityForm" action="javascript:void(0);">
+                            <div class="security--info">
+                                    <h3 class="security--title mt-5 mb-5">Change password</h3>
+                                    <div class="col-sm-4">
+                                        <div id="changePasswordResponse" class="alert" role="alert" style="display: none;"></div>
+                                        <div class="form-group">
+                                            <label for="oldPassword">Old Password: <span class="text-danger">*</span></label>
+                                            <input type="password" class="form-control form-control-lg" id="oldPassword" name="oldPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newPassword">New Password: <span class="text-danger">*</span></label>
+                                            <input type="password" class="form-control form-control-lg" id="newPassword" name="newPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirmPassword">Confirm Password: <span class="text-danger">*</span></label>
+                                            <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Next button -->
+                                <div class="d-flex align-items-center justify-content-center mt-5">
+                                    <a sec:authorize="hasRole('ROLE_CAROWNER')"
+                                       th:href="@{/home-carowner}" class="text-secondary">Discard</a>
+                                    <a sec:authorize="hasRole('ROLE_CUSTOMER')"
+                                       th:href="@{/home-customer}" class="text-secondary">Discard</a>
+                                    <button type="submit" id="saveSecurity" class="btn btn-primary ml-5">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="footer--info item--content bg-light d-flex" sec:authorize="hasRole('ROLE_CAROWNER')">
+            <div>
+                <div class="info--title">RENT CARS</div>
+                <!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Search Cars and Rates</a>-->
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+                <!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Manage My Booking</a>-->
+                <a th:href="@{/wallet}">My Wallet</a>
+                <a th:href="@{/home-carowner/car-list}">My Car</a>
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+                <!--                <a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+
+        <div class="footer--info item--content bg-light d-flex" sec:authorize="hasRole('ROLE_CUSTOMER')">
+            <div>
+                <div class="info--title">RENT CARS</div>
+                <a th:href="@{/home-customer/search-result}">Search Cars and Rates</a>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+                <a th:href="@{/home-customer/booking-list}">Manage My Booking</a>
+                <a th:href="@{/wallet}">My Wallet</a>
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                <!--                <a href="#">My Car</a>-->
+                <!--                <a href="#">Log In</a>-->
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+                <!--                <a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+    <script th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- my js -->
+    <script th:src="@{/js/edit-profile.js}"></script>
+</body>
+
+</html>

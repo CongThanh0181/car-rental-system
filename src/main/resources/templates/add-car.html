@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+    <head>
+
+        <title>Add Car</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}">
+
+        <!-- font awesome-->
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+
+        <!-- my css -->
+        <link rel="stylesheet" th:href="@{/css/add-car.css}">
+
+    </head>
+
+    <body>
+        <!-- header -->
+        <header class="header d-flex ml-5 mr-5">
+            <div class="logo flex-grow-1 d-flex align-items-center text-light">
+                <i class="fa-solid fa-car"></i>
+                <h1 class="logo--description font-weight-bold ml-4 display-4">Rent a car today!</h1>
+            </div>
+            <div class="about d-flex align-items-center">
+                <a href="#" class="text-light">ABOUT US</a>
+            </div>
+            <div class="header__action d-flex align-items-center">
+                <div class="dropdown ml-5">
+                    <button type="button" class="dropdown-toggle text-light d-flex align-items-center"
+                            data-toggle="dropdown">
+                        <div class="signup__icon">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <span sec:authentication="principal.fullname"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                        <a class="dropdown-item" th:href="@{/home-carowner/car-list}">My Car</a>
+                        <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                        <a class="dropdown-item" th:href="@{/home-carowner/my-report}">My Reports</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{/logout}"
+                           onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- main -->
+        <main class="add-a-car">
+            <!-- add a car header -->
+            <div class="add-a-car__header bg-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-light">
+                        <li class="breadcrumb-item"><a th:href="@{/home-carowner}">Home</a></li>
+                        <li class="breadcrumb-item"><a class="text-secondary" href="#">Add a car</a></li>
+                    </ol>
+                </nav>
+                <h2 class="pl-3 header--title">Add a car</h2>
+            </div>
+
+            <!-- add a car info -->
+            <div class="add-a-car__info">
+                <div class="">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="" href="#step1">Step 1: Basic</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="" href="#step2">Step 2: Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="" href="#step3">Step 3: Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="" href="#step4">Step 4: Finish</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <!-- Tab content -->
+                    <form action="/home-carowner/add-car/save" method="POST" enctype="multipart/form-data">
+                    <div class="tab-content">
+
+
+                        <!-- step1 -->
+                        <div id="step1" class="container tab-pane active">
+                            <div>
+                                <p class="instruction text-danger mb-5">
+                                    Note: Please check your information carefully,
+                                    you'll not be able to change the basic details of your car,
+                                    which is based on the registration information.
+                                </p>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group mb-5">
+                                            <label for="licensePlate">License Plate: <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control form-control-lg mt-3" id="licensePlate"
+                                                   name="licensePlate">
+                                            <span id="licensePlateErr" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <label>Brand Name: <span class="text-danger">*</span></label>
+                                            <select name="brandName" class="form-control form-control-lg mt-3">
+                                                <option value="" disabled selected hidden>Select your brand car name</option>
+                                                <option th:each="brandCar : ${brandCars}" th:value="${brandCar.getBrandCarId()}"
+                                                        th:text="${brandCar.getBrandName()}"></option>
+                                            </select>
+                                            <span id="brandNameErr" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <label>Production Year: <span class="text-danger">*</span></label>
+                                            <select name="productionYear" class="form-control form-control-lg mt-3">
+                                                <option value="" disabled selected hidden>Select your production year of car
+                                                </option>
+                                                <option th:each="productionYear : ${productionYears}"
+                                                        th:value="${productionYear.productionYearName}"
+                                                        th:text="${productionYear.productionYearName}"></option>
+                                            </select>
+                                            <span id="productionYearErr" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <label>Transmission: <span class="text-danger">*</span></label>
+                                            <div class="d-flex mt-3">
+                                                <div class="mr-5">
+                                                    <input type="radio" id="automatic" name="transmission"
+                                                           value="AUTOMATIC">
+                                                    <label class="" for="automatic">Automatic</label>
+                                                </div>
+                                                <div class="">
+                                                    <input type="radio" id="manual" name="transmission"
+                                                           value="MANUAL">
+                                                    <label class="" for="manual">Manual</label>
+                                                </div>
+                                            </div>
+                                            <span id="transmissionErr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <label>Color: <span class="text-danger">*</span></label>
+                                            <select name="color" class="form-control form-control-lg mt-3">
+                                                <option value="" disabled selected hidden>Select your color of car</option>
+                                                <option th:each="color : ${colors}"
+                                                        th:value="${color.getColorName()}"
+                                                        th:text="${color.getColorName()}"></option>
+                                            </select>
+                                            <span id="colorErr" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <label>Model: <span class="text-danger">*</span></label>
+                                            <select name="modelCar" class="form-control form-control-lg mt-3">
+                                                <option value="" disabled selected hidden>Select your model car name</option>
+                                                <!--To do render-->
+                                            </select>
+                                            <span id="modelCarErr" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <label>No. of seats: <span class="text-danger">*</span></label>
+                                            <select name="noOfSeats" class="form-control form-control-lg mt-3">
+                                                <option value="" disabled selected hidden>Select no. of seats in your car
+                                                </option>
+                                                <option th:each="noOfSeat : ${noOfSeats}"
+                                                        th:value="${noOfSeat.getNoOfSeatName()}"
+                                                        th:text="${noOfSeat.getNoOfSeatName()}"></option>
+                                            </select>
+                                            <span id="noOfSeatsErr" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group d-flex flex-column mb-5">
+                                            <label>Fuel: <span class="text-danger">*</span></label>
+                                            <div class="d-flex mt-3">
+                                                <div class="mr-5">
+                                                    <input type="radio" class="" id="gasoline" name="fuel" value="GASOLINE">
+                                                    <label class="" for="gasoline">Gasoline</label>
+                                                </div>
+                                                <div class="">
+                                                    <input type="radio" class="" id="diesel" name="fuel" value="DIESEL">
+                                                    <label class="" for="diesel">Diesel</label>
+                                                </div>
+                                            </div>
+                                            <span id="fuelErr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- document -->
+                            <div class="document mt-3">
+                                <h3 class="document--title mb-5">Documents</h3>
+                                <div class="document--info d-flex align-items-center justify-content-between mb-5">
+                                    <div>
+                                        <label>Registration paper: <span class="text-danger">*</span></label>
+                                        <div class="document--info__item bg-light d-flex flex-column
+                                            justify-content-center align-items-center mt-3">
+                                            <i class="fa-solid fa-upload"></i>
+                                            <span>Drag and drop</span>
+                                            <span>OR</span>
+                                            <input type="file" name="fileDocument" id="fileRegistration"
+                                                   accept=".doc, .docx, .pdf, .jpg , .jpeg , .png" maxFileSize="30000000" hidden/>
+                                            <label for="fileRegistration" class="inputfile text-primary">Select file</label>
+                                            <img alt="" class="thumbnail" id="thumbnailFileDocument0">
+                                        </div>
+                                        <span id="registrationErr" class="fileDocumentErr0 text-danger"></span>
+                                    </div>
+
+                                    <div>
+                                        <label>Certificate of inspection: <span class="text-danger">*</span></label>
+                                        <div class="document--info__item bg-light d-flex flex-column justify-content-center align-items-center mt-3">
+                                            <i class="fa-solid fa-upload"></i>
+                                            <span>Drag and drop</span>
+                                            <span>OR</span>
+                                            <input type="file" name="fileDocument" id="fileCertificate"
+                                                   accept=".doc, .docx, .pdf, .jpg , .jpeg , .png" maxFileSize="30000000" hidden/>
+                                            <label for="fileCertificate" class="inputfile text-primary">Select file</label>
+                                            <img alt="" class="thumbnail" id="thumbnailFileDocument1">
+                                        </div>
+                                        <span id="certificateErr" class="fileDocumentErr1 text-danger"></span>
+                                    </div>
+
+                                    <div>
+                                        <label>Insurance: <span class="text-danger">*</span></label>
+                                        <div class="document--info__item bg-light d-flex flex-column justify-content-center align-items-center mt-3">
+                                            <i class="fa-solid fa-upload"></i>
+                                            <span>Drag and drop</span>
+                                            <span>OR</span>
+                                            <input type="file" name="fileDocument" id="fileInsurance"
+                                                   accept=".doc, .docx, .pdf, .jpg , .jpeg , .png" maxFileSize="30000000" hidden/>
+                                            <label for="fileInsurance" class="inputfile text-primary">Select file</label>
+                                            <img alt="" class="thumbnail" id="thumbnailFileDocument2">
+                                        </div>
+                                        <span id="insuranceErr" class="fileDocumentErr2 text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <span>File type: doc, .docx, .pdf, .jpg , .jpeg , .png</span>
+                                </div>
+                            </div>
+
+                            <!-- Next button -->
+                            <div class="d-flex align-items-center justify-content-center mt-5">
+                                <a th:href="@{/home-carowner}">Cancel</a>
+                                <div id="nextButton" class="btn btn-primary ml-5">Next</div>
+                            </div>
+                        </div>
+
+                        <!-- step2 -->
+                        <div id="step2" class="container tab-pane fade">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group mb-5">
+                                        <label for="mileage" class="mb-3">Mileage: <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-lg w-50" id="mileage"
+                                               placeholder="" name="mileage">
+                                        <span id="mileageErr" class="text-danger"></span>
+                                    </div>
+                                    <label class="mb-3">Adress: <span class="text-danger">*</span></label>
+                                    <div class="form-group d-flex flex-column mb-5">
+                                        <select name="city" class="form-control form-control-lg">
+                                            <option value="" disabled selected hidden>City/Province</option>
+                                            <option th:each="city : ${cities}"
+                                                    th:value="${city.getCityId()}"
+                                                    th:text="${city.getCityName()}"></option>
+                                        </select>
+                                        <span id="cityErr" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group d-flex flex-column mb-5">
+                                        <select name="district" class="form-control form-control-lg">
+                                            <option value="" disabled selected hidden>District</option>
+                                        </select>
+                                        <span id="districtErr" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group d-flex flex-column mb-5">
+                                        <select name="ward" class="form-control form-control-lg">
+                                            <option value="" disabled selected hidden>Ward</option>
+                                        </select>
+                                        <span id="wardErr" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group mb-5">
+                                        <input type="text" class="form-control form-control-lg"
+                                               placeholder="House number, Street" name="streetHomeNumber">
+                                        <span id="streetHomeNumberErr" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group mb-5">
+                                        <label for="fuelConsumption" class="mb-3">Fuel consumption:</label>
+                                        <div class="mb-5">
+                                            <div class="d-flex">
+                                                <input type="text" class="form-control form-control-lg w-50"
+                                                       id="fuelConsumption"
+                                                       placeholder="" name="fuelConsumption">
+                                                <span class="ml-3">liter/100km</span>
+                                            </div>
+                                            <span id="fuelConsumptionErr" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-5">
+                                            <label for="description" class="mb-3">Description:</label>
+                                            <textarea class="form-control form-control-lg" id="description"
+                                                      placeholder="Description of your vehicle" rows="8" cols="50"
+                                                      name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional functions -->
+                            <div class="additional--functions">
+                                <div class="form-group mb-5 additional-function">
+                                    <label class="mb-3">Additional functions:</label>
+                                    <div class="d-flex align-items-center justify-content-around">
+                                        <div class="additional--functions__item d-flex flex-column bg-light">
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label mr-5" for="bluetooth"><i
+                                                        class="fa-brands fa-bluetooth"></i> Bluetooth</label>
+                                                <input class="form-check-input" type="checkbox" id="bluetooth"
+                                                       value="bluetooth" name="bluetooth">
+                                            </div>
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label" for="gps"><i class="fa-solid fa-map"></i>
+                                                    GPS</label>
+                                                <input class="form-check-input" type="checkbox" id="gps" value="gps"
+                                                       name="gps">
+                                            </div>
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label" for="camera"><i class="fa-solid fa-camera"></i>
+                                                    Camera</label>
+                                                <input class="form-check-input" type="checkbox" id="camera" value="camera"
+                                                       name="camera">
+                                            </div>
+                                        </div>
+                                        <div class="additional--functions__item d-flex flex-column bg-light">
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label mr-5" for="sunRoof"><i
+                                                        class="fa-regular fa-sun"></i> Sun roof</label>
+                                                <input class="form-check-input" type="checkbox" id="sunRoof" value="sunRoof"
+                                                       name="sunRoof">
+                                            </div>
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label" for="childLock"><i
+                                                        class="fa-solid fa-lock-open"></i> Child lock</label>
+                                                <input class="form-check-input" type="checkbox" id="childLock"
+                                                       value="childLock" name="childLock">
+                                            </div>
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label" for="childSeat"><i
+                                                        class="fa-solid fa-child-reaching"></i> Child seat</label>
+                                                <input class="form-check-input" type="checkbox" id="childSeat"
+                                                       value="childSeat" name="childSeat">
+                                            </div>
+                                        </div>
+                                        <div class="additional--functions__item d-flex flex-column bg-light">
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label mr-5" for="dvd"><i class="fa-solid fa-radio"></i>
+                                                    DVD</label>
+                                                <input class="form-check-input" type="checkbox" id="dvd" value="dvd"
+                                                       name="dvd">
+                                            </div>
+                                            <div class="form-check form-check-inline justify-content-between">
+                                                <label class="form-check-label" for="usb"><i class="fa-brands fa-usb"></i>
+                                                    USB</label>
+                                                <input class="form-check-input" type="checkbox" id="usb" value="usb"
+                                                       name="usb">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="image-car">
+                                <label class="mb-3">Images: <span class="text-danger">*</span></label>
+                                <div class="image--info d-flex align-items-center justify-content-between mb-5">
+
+                                    <div class="w-50">
+                                        <label>Front</label>
+                                        <div class="image--info__item bg-light d-flex flex-column justify-content-center align-items-center mt-3">
+                                            <i class="fa-solid fa-upload"></i>
+                                            <span>Drag and drop</span>
+                                            <span>OR</span>
+                                            <input type="file" name="fileCarImage" id="fileFrontImage"
+                                                   accept=".jpg, .jpeg, .png, .gif" maxFileSize="30000000" hidden/>
+                                            <label for="fileFrontImage" class="inputfile text-primary">Select file</label>
+                                            <img alt="" class="thumbnail" id="thumbnailFileCarImage0">
+                                        </div>
+                                        <span id="frontImageErr" class="fileCarImageErr0 text-danger"></span>
+                                    </div>
+
+                                    <div class="w-50">
+                                        <label>Back</label>
+                                        <div class="image--info__item bg-light d-flex flex-column justify-content-center align-items-center mt-3">
+                                            <i class="fa-solid fa-upload"></i>
+                                            <span>Drag and drop</span>
+                                            <span>OR</span>
+                                            <input type="file" name="fileCarImage" id="fileBackImage"
+                                                   accept=".jpg, .jpeg, .png, .gif" maxFileSize="30000000" hidden/>
+                                            <label for="fileBackImage" class="inputfile text-primary">Select file</label>
+                                            <img alt="" class="thumbnail" id="thumbnailFileCarImage1">
+                                        </div>
+                                        <span id="backImageErr" class="fileCarImageErr1 text-danger"></span>
+                                    </div>
+
+                                </div>
+                                <div class="image--info d-flex align-items-center justify-content-between mb-5">
+
+                                    <div class="w-50">
+                                        <label>Left</label>
+                                        <div class="image--info__item bg-light d-flex flex-column justify-content-center align-items-center mt-3">
+                                            <i class="fa-solid fa-upload"></i>
+                                            <span>Drag and drop</span>
+                                            <span>OR</span>
+                                            <input type="file" name="fileCarImage" id="fileLeftImage"
+                                                   accept=".jpg, .jpeg, .png, .gif" maxFileSize="30000000" hidden/>
+                                            <label for="fileLeftImage" class="inputfile text-primary">Select file</label>
+                                            <img alt="" class="thumbnail" id="thumbnailFileCarImage2">
+                                        </div>
+                                        <span id="leftImageErr" class="fileCarImageErr2 text-danger"></span>
+                                    </div>
+
+                                    <div class="w-50">
+                                        <label>Right</label>
+                                        <div
+                                                class="image--info__item bg-light d-flex flex-column justify-content-center align-items-center mt-3">
+                                            <i class="fa-solid fa-upload"></i>
+                                            <span>Drag and drop</span>
+                                            <span>OR</span>
+                                            <input type="file" name="fileCarImage" id="fileRightImage"
+                                                   accept=".jpg, .jpeg, .png, .gif" maxFileSize="30000000" hidden/>
+                                            <label for="fileRightImage" class="inputfile text-primary">Select file</label>
+                                            <img alt="" class="thumbnail" id="thumbnailFileCarImage3">
+                                        </div>
+                                        <span id="rightImageErr" class="fileCarImageErr3 text-danger"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-5">
+                                    <span>Please include full 4 images of your vehicle</span><br>
+                                    <span>File type: .jpg , .jpeg , .png, .gif</span>
+                                </div>
+                            </div>
+
+                            <!-- Next button -->
+                            <div class="d-flex align-items-center justify-content-center mt-5">
+                                <a th:href="@{/home-carowner}">Cancel</a>
+                                <div id="nextButton2" class="btn btn-primary ml-5">Next</div>
+                            </div>
+                        </div>
+
+                        <!-- step3 -->
+                        <div id="step3" class="container tab-pane fade">
+                            <div class="col-6">
+                                <div class="form-group row mb-5">
+                                    <label for="basePrice" class="mb-3 col-sm-6 col-form-label">Set base price for your
+                                        car: <span class="text-danger">*</span></label>
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center">
+                                            <input type="text" class="form-control form-control-lg w-50" id="basePrice"
+                                                   placeholder="" name="basePrice">
+                                            <span class="ml-3 font-weight-bold">VND/DAY</span>
+                                        </div>
+                                        <span id="basePriceErr" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-5">
+                                    <label for="deposit" class="mb-3 col-sm-6 col-form-label">Required deposit:</label>
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center">
+                                            <input type="text" class="form-control form-control-lg w-50" id="deposit"
+                                                   placeholder="" name="deposit">
+                                            <span class="ml-3 font-weight-bold">VND</span>
+                                        </div>
+                                        <span id="depositErr" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group terms-of-use">
+                                    <label class="mb-4">Terms of use:</label>
+                                    <div class="row mb-5">
+                                        <div class="form-check form-check-inline col-6">
+                                            <input class="form-check-input" type="checkbox" id="noSmoking" value="noSmoking"
+                                                   name="noSmoking">
+                                            <label class="form-check-label" for="noSmoking">No smoking</label>
+                                        </div>
+                                        <div class="form-check form-check-inline col-6">
+                                            <input class="form-check-input" type="checkbox" id="noFoodInCar"
+                                                   value="noFoodInCar" name="noFoodInCar">
+                                            <label class="form-check-label" for="noFoodInCar">No food in car</label>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="form-check form-check-inline col-6">
+                                            <input class="form-check-input" type="checkbox" id="noPet" value="noPet"
+                                                   name="noPet">
+                                            <label class="form-check-label" for="noPet">No pet</label>
+                                        </div>
+                                        <div class="form-check form-check-inline col-6">
+                                            <input class="form-check-input" type="checkbox" id="other" value="other"
+                                                   name="other">
+                                            <label class="form-check-label" for="other">Other</label>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="form-check form-check-inline col-6">
+
+                                        </div>
+                                        <div class="form-check col-6">
+                                            <label class="form-check-label mb-2" for="specifyDescription">Please
+                                                specify:</label>
+                                            <textarea class="form-control form-control-lg" id="specifyDescription" rows="6"
+                                                      cols="30" name="specifyDescription" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next button -->
+                            <div class="d-flex align-items-center justify-content-center mt-5">
+                                <a th:href="@{/home-carowner}">Cancel</a>
+                                <div id="nextButton3" class="btn btn-primary ml-5">Next</div>
+                            </div>
+                        </div>
+
+                        <!-- step4 -->
+                        <div id="step4" class="container tab-pane fade">
+                            <h3 class="preview--header mb-5">Preview</h3>
+                            <div class="row">
+                                <div class="preview--image col-6">
+                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                                            </li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img id="previewFileCarImage0" src="https://canxem.com/img/1.jpg" class="d-block w-100"
+                                                     alt="...">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img id="previewFileCarImage1" src="https://canxem.com/img/2.jpg" class="d-block w-100"
+                                                     alt="...">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img id="previewFileCarImage2" src="https://canxem.com/img/3.jpg" class="d-block w-100"
+                                                     alt="...">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img id="previewFileCarImage3" src="https://canxem.com/img/3.jpg" class="d-block w-100"
+                                                     alt="...">
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button"
+                                                data-target="#carouselExampleIndicators" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                                data-target="#carouselExampleIndicators" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="preview--description col-6">
+                                    <h4 class="preview--description__title display-4 mb-5" id="previewCarName">Nissan Navara EL
+                                        2017</h4>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <span class="preview--description__lable">Ratings:</span>
+                                        </div>
+                                        <div class="col-8 preview--description__info">
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+
+                                        </div>
+                                        <div class="col-8">
+                                            <span>(No ratings yet)</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <span class="preview--description__lable">No. of rides:</span>
+                                        </div>
+                                        <div class="col-8">
+                                            <span class="preview--description__info" id="previewNoOfRides">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <span class="preview--description__lable">Price:</span>
+                                        </div>
+                                        <div class="col-8">
+                                            <span class="preview--description__info">
+                                                <span id="previewPrice">900</span> k/day
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <span class="preview--description__lable">Locations:</span>
+                                        </div>
+                                        <div class="col-8">
+                                            <span class="preview--description__info" id="previewAddress">Cau Giay, Ha Noi</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <span class="preview--description__lable">Status:</span>
+                                        </div>
+                                        <div class="col-8">
+                                            <span class="preview--description__info text-success">Available</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next button -->
+                            <div class="d-flex align-items-center justify-content-center mt-5">
+                                <a th:href="@{/home-carowner}">Cancel</a>
+                                <button type="submit" id="nextButton4" class="btn btn-primary ml-5">Submit</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- footer -->
+        <footer>
+            <div class="footer--info item--content bg-light d-flex">
+                <div>
+                    <div class="info--title">RENT CARS</div>
+                    <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Search Cars and Rates</a>
+                </div>
+                <div class="d-flex flex-column">
+                    <div class="info--title">CUSTOMER ACCESS</div>
+                    <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Manage My Booking</a>
+                    <a th:href="@{/wallet}">My Wallet</a>
+                    <a th:href="@{/home-carowner/car-list}">My Car</a>
+                    <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+                <div>
+                    <div class="info--title">JOIN US</div>
+                    <!--<a href="#">New User Sign Up</a>-->
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <script th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}"></script>
+
+        <!-- my js -->
+        <script th:src="@{/js/add-car.js}"></script>
+    </body>
+
+</html>

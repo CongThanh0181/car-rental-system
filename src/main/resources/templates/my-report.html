@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+    <title>My Reports</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}">
+
+    <!-- font awesome-->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+
+    <!-- my css -->
+    <link rel="stylesheet" th:href="@{/css/my-report.css}">
+
+</head>
+
+<body>
+    <!-- header -->
+    <header class="header d-flex ml-5 mr-5">
+        <div class="logo flex-grow-1 d-flex align-items-center text-light">
+            <i class="fa-solid fa-car"></i>
+            <h1 class="logo--description font-weight-bold ml-4 display-4">Rent a car today!</h1>
+        </div>
+        <div class="about d-flex align-items-center">
+            <a href="#" class="text-light">ABOUT US</a>
+        </div>
+        <div class="header__action d-flex align-items-center">
+            <div class="dropdown ml-5">
+                <button type="button" class="dropdown-toggle text-light d-flex align-items-center"
+                        data-toggle="dropdown">
+                    <div class="signup__icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <span sec:authentication="principal.fullname"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/edit-profile}">My Profile</a>
+                    <a class="dropdown-item" th:href="@{/home-carowner/car-list}">My Car</a>
+                    <a class="dropdown-item" th:href="@{/wallet}">My Wallet</a>
+                    <a class="dropdown-item" th:href="@{/home-carowner/my-report}">My Reports</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <main class="add-a-car bg-light">
+        <!-- car detail header -->
+        <div class="add-a-car__header car-detail__header bg-light">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-light">
+                    <li class="breadcrumb-item"><a th:href="@{home-carowner}">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-secondary" href="#">My Reports</a></li>
+                </ol>
+            </nav>
+            <h2 class="pl-3 header--title">My Reports</h2>
+        </div>
+       
+        <!-- car detail -->
+        <div class="car-detail__info">
+            <div class="">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs bg-light mb-5">
+                  <li class="nav-item ml-5">
+                    <a class="nav-link active" data-toggle="tab" href="#feedback-reports">Feedback Reports</a>
+                  </li>
+                </ul>
+              
+                <!-- Tab panes -->
+                <div class="tab-content mt-0">
+                    <!-- tab basic information -->
+                    <div id="feedback-reports" class="tab-pane active">
+                        <div class="feedback-reports__header">
+                            <div class="average-ratings">
+                                <h4 class="average-ratings__title">Average Ratings</h4>
+                                <div class="text-center mb-5">
+                                    <span class="rating-point mb-5">4.25</span>
+                                    <div class="rating-star">
+                                        <input type="number" name="rating" hidden>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                    </div>
+                                </div>
+    
+                                <h4 class="average-ratings__title mb-5">Details</h4>
+                                <div class="detail-btn-groups d-flex justify-content-between">
+                                    <button type="button" class="btn">All <br/> (200)</button>
+                                    <button type="button" class="btn">5 Stars <br/> (100)</button>
+                                    <button type="button" class="btn">4 Stars <br/> (50)</button>
+                                    <button type="button" class="btn">3 Stars <br/> (50)</button>
+                                    <button type="button" class="btn">2 Stars <br/> (0)</button>
+                                    <button type="button" class="btn">1 Star <br/> (0)</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feedback-list">
+                            <!-- item1 -->
+                            <div class="feedback-item">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <div class="avata mb-5">
+                                            <i class="fa-solid fa-user-tie display-4"></i>
+                                            <span>user12345</span>
+                                        </div>
+                                        <div class="feedback-item__desc mb-5">
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, neque fugiat rerum aspernatur eos eligendi minima quod ab molestiae nostrum.</p>
+                                        </div>
+                                        <div class="preview-booking d-flex align-items-start">
+                                            <img src="https://canxem.com/img/1.jpg" class="img-fluid" alt="" width="400" height="200">
+                                            
+                                            <div class="ml-5">
+                                                <h2 class="card-title">Nissan Navara El 2017</h2>
+                                                <p class="card-text">• From: 13/02/2022 - 12:00 PM</p>
+                                                <p class="card-text">• To: 23/02/2022 - 14:00 PM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <div class="rating-star">
+                                            <input type="number" name="rating" hidden>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </div>
+                                        <div class="">
+                                            <span>23/02/2022 - 14:00 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- item2 -->
+                            <div class="feedback-item">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <div class="avata mb-5">
+                                            <i class="fa-solid fa-user-tie display-4"></i>
+                                            <span>user12345</span>
+                                        </div>
+                                        <div class="feedback-item__desc mb-5">
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, neque fugiat rerum aspernatur eos eligendi minima quod ab molestiae nostrum.</p>
+                                        </div>
+                                        <div class="preview-booking d-flex align-items-start">
+                                            <img src="https://canxem.com/img/1.jpg" class="img-fluid" alt="" width="400" height="200">
+                                            
+                                            <div class="ml-5">
+                                                <h2 class="card-title">Nissan Navara El 2017</h2>
+                                                <p class="card-text">• From: 13/02/2022 - 12:00 PM</p>
+                                                <p class="card-text">• To: 23/02/2022 - 14:00 PM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <div class="rating-star">
+                                            <input type="number" name="rating" hidden>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </div>
+                                        <div class="">
+                                            <span>23/02/2022 - 14:00 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- item3 -->
+                            <div class="feedback-item">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <div class="avata mb-5">
+                                            <i class="fa-solid fa-user-tie display-4"></i>
+                                            <span>user12345</span>
+                                        </div>
+                                        <div class="feedback-item__desc mb-5">
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, neque fugiat rerum aspernatur eos eligendi minima quod ab molestiae nostrum.</p>
+                                        </div>
+                                        <div class="preview-booking d-flex align-items-start">
+                                            <img src="https://canxem.com/img/1.jpg" class="img-fluid" alt="" width="400" height="200">
+                                            
+                                            <div class="ml-5">
+                                                <h2 class="card-title">Nissan Navara El 2017</h2>
+                                                <p class="card-text">• From: 13/02/2022 - 12:00 PM</p>
+                                                <p class="card-text">• To: 23/02/2022 - 14:00 PM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <div class="rating-star">
+                                            <input type="number" name="rating" hidden>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </div>
+                                        <div class="">
+                                            <span>23/02/2022 - 14:00 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- page -->
+                            <div class="d-flex justify-content-center mt-5">
+                                <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+                                    <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#!" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#!">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#!">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#!">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#!" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="footer--info item--content bg-light d-flex">
+            <div>
+                <div class="info--title">RENT CARS</div>
+<!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Search Cars and Rates</a>-->
+            </div>
+            <div class="d-flex flex-column">
+                <div class="info--title">CUSTOMER ACCESS</div>
+<!--                <a sec:authorize="hasAuthority('ROLE_CUSTOMER')" href="#">Manage My Booking</a>-->
+                <a th:href="@{/wallet}">My Wallet</a>
+                <a th:href="@{/home-carowner/car-list}">My Car</a>
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to log out?')">Log out</a>
+            </div>
+            <div>
+                <div class="info--title">JOIN US</div>
+                <!--<a href="#">New User Sign Up</a>-->
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- my js -->
+
+</body>
+
+</html>
